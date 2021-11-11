@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   // products to be rendered on the UI
   const [displayProducts, setDisplayProducts] = useState([]);
@@ -87,7 +88,12 @@ const Shop = () => {
           ))}
           <div className="pagination">
             {
-              [...Array(pageCount).keys()].map(number => <button>{number}</button>)
+              [...Array(pageCount).keys()].map(number => <button
+               className={number === page ? 'selected' : ''}
+               key={number}
+               onClick={()=> setPage(number)}
+              >{number}
+              </button>)
             }
             
 

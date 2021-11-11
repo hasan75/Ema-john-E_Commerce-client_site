@@ -4,10 +4,11 @@ import Product from '../Product/Product';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import './Shop.css';
 import { Link } from 'react-router-dom';
+import useCart from '../../hooks/useCart'
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useCart();
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   // products to be rendered on the UI
@@ -25,22 +26,6 @@ const Shop = () => {
         setPageCount(pageNumber);
       });
   }, [page]);
-
-  useEffect(() => {
-    if (products.length) {
-      const savedCart = getStoredCart();
-      const storedCart = [];
-      for (const key in savedCart) {
-        const addedProduct = products.find((product) => product.key === key);
-        if (addedProduct) {
-          const quantity = savedCart[key];
-          addedProduct.quantity = quantity;
-          storedCart.push(addedProduct);
-        }
-      }
-      setCart(storedCart);
-    }
-  }, [products]);
 
   const handleAddToCart = (product) => {
     const exists = cart.find((pd) => pd.key === product.key);
